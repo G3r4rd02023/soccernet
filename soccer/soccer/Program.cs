@@ -1,6 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using soccer.Data;
+using soccer.Helpers;
+using Vereyon.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<DataContext>(cfg =>
+{
+    cfg.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddFlashMessage();
+builder.Services.AddScoped<IImageHelper, ImageHelper>();
+builder.Services.AddScoped<IConverterHelper, ConverterHelper>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
